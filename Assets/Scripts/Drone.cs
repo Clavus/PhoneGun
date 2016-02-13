@@ -6,7 +6,12 @@ public class Drone : BaseTargetBehaviour
 {
     public override void ReceiveHit()
     {
-        transform.DOPunchScale(Vector3.one * 0.2f, 2f);
+        //transform.DOPunchScale(Vector3.one * 0.2f, 2f);
         GetComponent<HealthManager>().setDamage(10f);
+    }
+
+    public override TargetType GetTargetType()
+    {
+        return TargetType.Enemy;
     }
 }

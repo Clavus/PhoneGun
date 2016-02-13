@@ -56,8 +56,9 @@ public class ObjectPool : SingletonComponent<ObjectPool>
     // The faster lookup dictionary
     private Dictionary<string, ObjectPoolEntry> entries;
 
-    void Start()
+    void Awake()
     {
+        base.Awake();
         // Loop through the object prefabs and make a new queue for each one.
         // Store everything in the entries dictionary for faster lookup.
         entries = new Dictionary<string, ObjectPoolEntry>();

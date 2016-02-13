@@ -53,7 +53,7 @@ public class HealthManager : MonoBehaviour {
         Debug.Log("[HeakthManager] Im taking damaged: " + damage);
         currentHealth -= damage;
 
-        //SetHealthBarUI();
+        SetHealthBarUI();
 
         if (currentHealth <= 0f && !isDead)
         {
