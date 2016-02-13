@@ -14,7 +14,7 @@ public class WorldBuilder : SingletonComponent<WorldBuilder>
     [Header("Number of Y grid squares ahead")]
     public int creationDistance = 50;
     [Header("Number of Y grid squares behind")]
-    public int cleanupDistance = 80;
+    public int cleanupDistance = 60;
     
     private WorldElement lastChosenElement;
     private WorldElement secondLastChosenElement;
