@@ -10,14 +10,17 @@ public class Weapon_Health : MonoBehaviour {
     private ParticleSystem explosionParticle;
     private float currentHealth;
     private bool isDead = false;
+    //private GameObject explotionPrefabClone;
+
+    [SerializeField]
+    private float animationTime;
 
     // Use this for initialization
     void Start ()
     {
         if(explotionPrefab)
         {
-            explotionPrefab = Instantiate(this.explotionPrefab);
-            explosionParticle = explotionPrefab.GetComponentInChildren<ParticleSystem>();
+            animationTime = explotionPrefab.GetComponentInChildren<ParticleSystem>().duration;
             explotionPrefab.SetActive(false);
         }
 
@@ -26,7 +29,7 @@ public class Weapon_Health : MonoBehaviour {
 
     public void setDamage(float damage)
     {
-        //Debug.Log("[HeakthManager] Im taking damaged: " + damage);
+        Debug.Log("[Weapon_Health] Im taking damaged: " + damage);
         currentHealth -= damage;
 
         if (currentHealth <= 0f && !isDead)
@@ -39,14 +42,10 @@ public class Weapon_Health : MonoBehaviour {
     {
         isDead = true;
 
-        // Set explostion refab to players posistion and enabled it
-        explotionPrefab.transform.position = transform.position;
+        //explotionPrefabClone.transform.position = transform.position;
         explotionPrefab.SetActive(true);
 
-        //Destroy thisobject
-        Destroy(this.gameObject);
-
-        // Remove explostion prefab when its done animating
-        Destroy(explotionPrefab, explosionParticle.duration);
+        // Destroy thisobject
+        Destroy(this.gameObject, explotionPrefab.GetComponentInChildren<ParticleSystem>().duration);
     }
 }
