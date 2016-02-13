@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.VR;
 
 public class Player : MonoBehaviour
 {
@@ -81,6 +82,11 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
+	    if (Input.GetButtonDown("Recenter") && VRSettings.enabled)
+	    {
+	        InputTracking.Recenter();
+	    }
 
     }
 }
