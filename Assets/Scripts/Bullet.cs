@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : BaseTargetBehaviour
 {
-    public override void ReceiveHit()
+    public override void ReceiveHit(RaycastHit hitinfo)
     {
         //transform.DOPunchScale(Vector3.one * 0.2f, 2f);
         GetComponent<Weapon_Health>().setDamage(10f);
