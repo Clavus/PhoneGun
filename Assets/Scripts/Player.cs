@@ -4,6 +4,9 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
 
+    [SerializeField]
+    private BulletBelt bulletBelt;
+
     private int targetLayers;
 
 	// Use this for initialization
@@ -17,15 +20,16 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-	    if (Input.GetButtonDown("Fire1"))
+	    if (Input.GetButtonDown("Fire1") && bulletBelt.GetBulletsLeft() > 0)
 	    {
-            Debug.Log("Firing");
+            //Debug.Log("Firing");
+            bulletBelt.UseBullet();
             Ray r = new Ray(transform.position, transform.forward * 100f);
 	        RaycastHit hitinfo;
             Debug.DrawRay(r.origin, r.direction * 10f, Color.red, 2f);
 	        if (Physics.Raycast(r, out hitinfo, 1000f, targetLayers))
 	        {
-                Debug.Log("Hit");
+                //Debug.Log("Hit");
                 // get base game object
                 GameObject obj = hitinfo.collider.gameObject;
 	            if (hitinfo.collider.attachedRigidbody != null)
@@ -38,6 +42,10 @@ public class Player : MonoBehaviour
 	        }
 	    }
 
+	    if (Input.GetButtonDown("Fire2"))
+	    {
+	        bulletBelt.Reload();
+	    }
 
 	}
 }
