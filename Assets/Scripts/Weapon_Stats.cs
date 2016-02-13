@@ -6,29 +6,7 @@ public class Weapon_Stats : MonoBehaviour
 {
     //private enum WeaponTypes {Main, Options, Extras};
     public LayerMask hitMask;
-    //public GameObject impactPrefab;
-    //public AudioClip impactEffect;
-
-    //private ParticleSystem impactParticle;
-
-    //void Awake()
-    //{
-    //    ////audioFile = explosionParticle.GetComponent<AudioSource>();
-    //    impactPrefab = Instantiate(this.impactPrefab);
-    //    //impactParticle = impactPrefab.GetComponentInChildren<ParticleSystem>();
-    //    //impactPrefab.SetActive(false);
-
-    //    if (impactPrefab)
-    //    {
-    //        impactParticle = impactPrefab.GetComponentInChildren<ParticleSystem>();
-    //        impactPrefab.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("[Weapon_Stat] No Effect frefab for  weapon seleceted");
-    //    }
-    //}
-
+    //public float autoDestroy = 3f; 
 
     /// <summary>
     /// The name of the weapon.
@@ -107,5 +85,10 @@ public class Weapon_Stats : MonoBehaviour
             //}
         }
         Destroy(this.gameObject);
-    }  
+    }
+
+    void Start()
+    {
+        //Destroy(this.gameObject, autoDestroy);   
+    }
 }

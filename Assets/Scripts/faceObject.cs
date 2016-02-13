@@ -11,7 +11,10 @@ public class faceObject : MonoBehaviour
 
     void Start()
     {
-        lookOffset = new Vector3(0, 180, 0);
+        //if (lookAtMyVector)
+        //{
+        //    lookOffset = new Vector3(0, 0, 0);
+        //}
 
         if (lookAtMe == null)
         {
@@ -29,7 +32,7 @@ public class faceObject : MonoBehaviour
 
     void LookAtObject()
     {
-        this.transform.LookAt(lookAtMyVector);
+        this.transform.LookAt(lookAtMe.position);
         this.transform.Rotate(lookOffset);
     }
 }

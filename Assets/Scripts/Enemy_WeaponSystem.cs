@@ -9,6 +9,7 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     public float burstInterval = 0.3f;
     public bool enableBurstMode = true;
     public int photonSalvo = 5;
+    public float autoDestroy = 3f;
 
     //([Header],"s");
     public float weaponRotationOffset = 0f;
@@ -16,17 +17,12 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     public AudioClip fireSound;
     public bool enableFireing = true;
 
-
     //do not change these vales
     private float cooldown;
     private float shootTime1 = 0.0f;
+    private GameObject weaponClone;
 
 
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
 	// Update is called once per frame
 	void Update ()
     {
@@ -38,7 +34,6 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     {
         if (Time.time >= shootTime1)
         {
-
             if (fireHartpoint != null)
             {
                 if (enableBurstMode)
@@ -62,32 +57,49 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     // [A] creates a new instance of the beam or projectyle weapon using Burst fire
     IEnumerator FireWeaponObjectBurst()
     {
-        //Debug.Log(" fire in burstMode.");
-
         // fire x photons per salvo shot
         for (int i = 0; i < photonSalvo; i++)
         {
+            playAudioFile(true);
+
             // Create a new instance of weapon[currentSeclected], startfrom firehartpoint position, and use firehartpoint Y rotation to [x.y.z])
-            weapon = (GameObject)Instantiate(weapon, fireHartpoint.transform.position, Quaternion.Euler(0, fireHartpoint.transform.eulerAngles.y + weaponRotationOffset, 0));
+            weaponClone = (GameObject)Instantiate(weapon, fireHartpoint.transform.position, Quaternion.Euler(0, fireHartpoint.transform.eulerAngles.y + weaponRotationOffset, 0));
+
+            Destroy(weaponClone.gameObject, autoDestroy);
 
             // Fire weapon at speed x
-            weapon.GetComponent<Rigidbody>().AddForce(transform.forward * weaponSpeed);
-
+            weaponClone.GetComponent<Rigidbody>().AddForce(transform.forward * weaponSpeed);
+    
             yield return new WaitForSeconds(burstInterval);
         }
     }
 
+    void playAudioFile(bool oneShot)
+    {
+        if(fireSound)
+        {
+            if (oneShot)
+            {
+                GetComponent<AudioSource>().PlayOneShot(fireSound);
+            }
+            else
+            {
+                //GetComponent<AudioSource>().Play();
+            }
+        } 
+    }
 
     // [B] creates a new instance of the beam or projectyle weapon
     void FireWeaponObjectNormal()
     {
-        //Debug.Log(" fire in normalMode.");
+        playAudioFile(true);
 
         // create a new instance of weapon[currentSeclected], starfrom firehartpoint position, and use firehartpoint Y rotation to [x.y.z])
-        weapon = (GameObject)Instantiate(weapon, fireHartpoint.transform.position, Quaternion.Euler(0, fireHartpoint.transform.eulerAngles.y + weaponRotationOffset, 0));
+        weaponClone = (GameObject)Instantiate(weapon, fireHartpoint.transform.position, Quaternion.Euler(0, fireHartpoint.transform.eulerAngles.y + weaponRotationOffset, 0));
+
+        Destroy(weaponClone.gameObject, autoDestroy);
 
         // Fire weapon at speed x
-        weapon.GetComponent<Rigidbody>().AddForce(transform.forward * weaponSpeed);
+        weaponClone.GetComponent<Rigidbody>().AddForce(transform.forward * weaponSpeed);
     }
-
 }
