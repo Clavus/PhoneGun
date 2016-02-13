@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class HealthManager : MonoBehaviour {
+public class Weapon_Health : MonoBehaviour {
 
     public float startHealth = 100f;
     public Slider slider;

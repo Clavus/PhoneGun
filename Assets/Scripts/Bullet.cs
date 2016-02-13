@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using DG.Tweening;
 
-public class Drone : BaseTargetBehaviour
+public class Bullet : BaseTargetBehaviour
 {
-    public override void ReceiveHit(RaycastHit hit)
+    public override void ReceiveHit()
     {
         //transform.DOPunchScale(Vector3.one * 0.2f, 2f);
         GetComponent<Weapon_Health>().setDamage(10f);

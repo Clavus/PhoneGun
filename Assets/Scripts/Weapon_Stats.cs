@@ -87,6 +87,7 @@ public class Weapon_Stats : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+
     void Start()
     {
         //Destroy(this.gameObject, autoDestroy);   
