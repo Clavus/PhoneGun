@@ -43,7 +43,7 @@ public class BulletBelt : MonoBehaviour
         {
             var obj = ObjectPool.Get(bulletObject, Vector3.zero, Quaternion.identity);
             obj.transform.parent = transform;
-            obj.transform.localPosition = new Vector3(i * 0.1f, (i % 2) * 0.02f, 0);
+            obj.transform.localPosition = new Vector3(i * 0.1f, 0, (i % 2) * 0.02f);
             obj.transform.localEulerAngles = new Vector3(0,90,0);
             var rigid = obj.GetComponent<Rigidbody>();
             rigid.constraints = RigidbodyConstraints.FreezeAll;
