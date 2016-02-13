@@ -47,11 +47,11 @@ public class Player : MonoBehaviour
 	            if (target != null)
 	            {
                     if (target.GetTargetType() == TargetType.Enemy && bulletBelt.GetBulletsLeft() > 0)
-                        target.ReceiveHit(); // trigger hit
+                        target.ReceiveHit(hitinfo); // trigger hit
                     else if (target.GetTargetType() == TargetType.Trigger)
                     {
                         hitTrigger = true;
-                        target.ReceiveHit();
+                        target.ReceiveHit(hitinfo);
                     }
                         
                 }

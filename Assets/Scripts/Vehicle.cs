@@ -20,11 +20,14 @@ public class Vehicle : BaseTargetBehaviour
 
     public override void ReceiveHit(RaycastHit hitinfo)
     {
-        var obj = ObjectPool.Get("SteelHit");
+        var obj = ObjectPool.Get("SteelHitSystem");
+        obj.transform.parent = transform;
+        obj.transform.position = hitinfo.point;
+        obj.transform.rotation = Quaternion.LookRotation(hitinfo.normal);
     }
 
     public override TargetType GetTargetType()
     {
-        throw new System.NotImplementedException();
+        return TargetType.Enemy;
     }
 }
