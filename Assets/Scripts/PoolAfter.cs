@@ -5,10 +5,11 @@ public class PoolAfter : MonoBehaviour
 {
 
     public float seconds = 1f;
+    public bool removeSelf = true;
 
     private float endTime;
     
-	void Start ()
+	void OnEnable()
 	{
 	    endTime = Time.time + seconds;
 	}
@@ -18,7 +19,9 @@ public class PoolAfter : MonoBehaviour
 	    if (endTime < Time.time)
 	    {
 	        ObjectPool.Add(gameObject);
-            Destroy(this); // remove this component
+
+            if (removeSelf)
+                Destroy(this); // remove this component
 	    }
 	}
 }

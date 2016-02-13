@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Vehicle : MonoBehaviour
+public class Vehicle : BaseTargetBehaviour
 {
 
     public float speed = 1.0f;
@@ -17,4 +17,14 @@ public class Vehicle : MonoBehaviour
 	    transform.position += direction*speed*Time.deltaTime;
 
 	}
+
+    public override void ReceiveHit(RaycastHit hitinfo)
+    {
+        var obj = ObjectPool.Get("SteelHit");
+    }
+
+    public override TargetType GetTargetType()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -20,12 +20,13 @@ public class ReloadPanel : BaseTargetBehaviour
         baseTextTransform = reloadTextCanvasTransform.localScale;
     }
 
-    public override void ReceiveHit()
+    public override void ReceiveHit(RaycastHit hit)
     {
         reloadAudio.Play();
         bulletBelt.Reload();
 
         reloadTextCanvasTransform.DOKill();
+        reloadTextCanvasTransform.localScale = baseTextTransform;
         reloadTextCanvasTransform.DOPunchScale(baseTextTransform * 1.05f, 0.5f);
     }
 
