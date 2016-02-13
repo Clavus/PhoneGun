@@ -62,7 +62,7 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     // [A] creates a new instance of the beam or projectyle weapon using Burst fire
     IEnumerator FireWeaponObjectBurst()
     {
-        Debug.Log(" fire in burstMode.");
+        //Debug.Log(" fire in burstMode.");
 
         // fire x photons per salvo shot
         for (int i = 0; i < photonSalvo; i++)
@@ -81,7 +81,7 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     // [B] creates a new instance of the beam or projectyle weapon
     void FireWeaponObjectNormal()
     {
-        Debug.Log(" fire in normalMode.");
+        //Debug.Log(" fire in normalMode.");
 
         // create a new instance of weapon[currentSeclected], starfrom firehartpoint position, and use firehartpoint Y rotation to [x.y.z])
         weapon = (GameObject)Instantiate(weapon, fireHartpoint.transform.position, Quaternion.Euler(0, fireHartpoint.transform.eulerAngles.y + weaponRotationOffset, 0));

@@ -50,7 +50,7 @@ public class HealthManager : MonoBehaviour {
 
     public void setDamage(float damage)
     {
-        Debug.Log("[HeakthManager] Im taking damaged: " + damage);
+        //Debug.Log("[HeakthManager] Im taking damaged: " + damage);
         currentHealth -= damage;
 
         SetHealthBarUI();
@@ -70,7 +70,7 @@ public class HealthManager : MonoBehaviour {
 
         // Set explostion refab to players posistion and enabled it
         explotionPrefab.transform.position = transform.position;
-        Debug.Log("[Healthmanager] Spawning explosion prefab to player loc: " + explotionPrefab.name);
+        //Debug.Log("[Healthmanager] Spawning explosion prefab to player loc: " + explotionPrefab.name);
         explotionPrefab.SetActive(true);
 
         //Destroy thisobject
@@ -84,7 +84,7 @@ public class HealthManager : MonoBehaviour {
     {
         if (slider)
         {
-            Debug.Log("[Healthmanager] health circle at: " + currentHealth / startHealth + " %");
+            //Debug.Log("[Healthmanager] health circle at: " + currentHealth / startHealth + " %");
             slider.value = currentHealth;
             fillImage.color = Color.Lerp(minHealthColor, maxHealthColor, currentHealth / startHealth);
         }
