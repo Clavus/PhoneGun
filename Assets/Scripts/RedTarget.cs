@@ -3,6 +3,9 @@ using System.Collections;
 
 public class RedTarget : BaseTargetBehaviour
 {
+
+    public float distanceAdd = 5;
+
     [SerializeField]
     private ParticleSystem system;
 
@@ -13,6 +16,7 @@ public class RedTarget : BaseTargetBehaviour
     {
         //transform.DOPunchScale(Vector3.one * 0.2f, 2f);
         targetObject.SetActive(false);
+        GameManager.AddDistance(distanceAdd);
         system.Play();
     }
 

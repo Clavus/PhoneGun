@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 	void Start ()
 	{
         Cursor.lockState = CursorLockMode.Locked;
-	    targetLayers = LayerMask.GetMask("Entity");
+	    targetLayers = LayerMask.GetMask("Entity", "Geometry");
 
 	}
 	
@@ -47,15 +47,19 @@ public class Player : MonoBehaviour
 	            target = obj.GetComponent<BaseTargetBehaviour>();
 	            if (target != null)
 	            {
-                    if (target.GetTargetType() == TargetType.Enemy && bulletBelt.GetBulletsLeft() > 0)
-                        target.ReceiveHit(hitinfo); // trigger hit
-                    else if (target.GetTargetType() == TargetType.Trigger)
-                    {
-                        hitTrigger = true;
-                        target.ReceiveHit(hitinfo);
-                    }
-                        
-                }
+	                if (target.GetTargetType() == TargetType.Enemy && bulletBelt.GetBulletsLeft() > 0)
+	                    target.ReceiveHit(hitinfo); // trigger hit
+	                else if (target.GetTargetType() == TargetType.Trigger)
+	                {
+	                    hitTrigger = true;
+	                    target.ReceiveHit(hitinfo);
+	                }
+
+	            }
+	            else if (bulletBelt.GetBulletsLeft() > 0)
+	            {
+	                BaseHitEffect(hitinfo);
+	            }
                     
             }
 
@@ -88,5 +92,13 @@ public class Player : MonoBehaviour
 	        InputTracking.Recenter();
 	    }
 
+    }
+
+    void BaseHitEffect(RaycastHit hitinfo)
+    {
+        var obj = ObjectPool.Get("SteelHitSystem");
+        obj.transform.parent = hitinfo.collider.transform;
+        obj.transform.position = hitinfo.point;
+        obj.transform.rotation = Quaternion.LookRotation(hitinfo.normal);
     }
 }

@@ -12,7 +12,7 @@ public class WorldBuilder : SingletonComponent<WorldBuilder>
     private WorldElement[] worldElements;
     
     [Header("Number of Y grid squares ahead")]
-    public int creationDistance = 50;
+    public int creationDistance = 60;
     [Header("Number of Y grid squares behind")]
     public int cleanupDistance = 60;
     
@@ -39,7 +39,7 @@ public class WorldBuilder : SingletonComponent<WorldBuilder>
             element.ActivateObjects();
         }
         
-        InvokeRepeating("WorldCleanup", 10, 10);
+        InvokeRepeating("WorldCleanup", 5, 5);
     }
 
     void Update()
@@ -77,16 +77,17 @@ public class WorldBuilder : SingletonComponent<WorldBuilder>
 
         if (potentialElements.Count == 0)
             return;
-
+        
         // make sure we don't spawn the same element 3 times in a row
         WorldElement chosenElement = null;
         int attempts = 10;
         while (attempts > 0 && (chosenElement == null || (chosenElement == lastChosenElement && chosenElement == secondLastChosenElement)))
         {
-            chosenElement = potentialElements[Random.Range(0, potentialElements.Count)];
+            int chosen = Random.Range(0, potentialElements.Count);
+            chosenElement = potentialElements[chosen];
             attempts--;
         }
-
+        
         secondLastChosenElement = lastChosenElement;
         lastChosenElement = chosenElement;
 
