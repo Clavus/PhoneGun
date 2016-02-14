@@ -10,12 +10,16 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     public bool enableBurstMode = true;
     public int photonSalvo = 5;
     public float autoDestroy = 3f;
+    public float fireDistance = 6f;
 
     //([Header],"s");
     public float weaponRotationOffset = 0f;
     public float weaponSpeed = 2000f;
     public AudioClip fireSound;
     public bool enableFireing = true;
+
+    [SerializeField]
+    private float distance;
 
     //do not change these vales
     private float cooldown;
@@ -28,29 +32,38 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     {
         //CheckForFireing();
         FireSelectedWeapon();
+        CheckDistance();
+    }
+
+    void CheckDistance()
+    {
+        distance = Vector3.Distance(transform.position, Camera.main.transform.position);
     }
 
     void FireSelectedWeapon()
     {
-        if (Time.time >= shootTime1)
+        if (distance <= fireDistance)
         {
-            if (fireHartpoint != null)
+            if (Time.time >= shootTime1)
             {
-                if (enableBurstMode)
+                if (fireHartpoint != null)
                 {
-                    StartCoroutine(FireWeaponObjectBurst());
+                    if (enableBurstMode)
+                    {
+                        StartCoroutine(FireWeaponObjectBurst());
+                    }
+                    else
+                    {
+                        FireWeaponObjectNormal();
+                    }
                 }
                 else
                 {
-                    FireWeaponObjectNormal();
+                    Debug.Log("[" + this.name + "] " + "Please select a firehartpoint first");
                 }
-            }
-            else
-            {
-                Debug.Log("[" + this.name + "] " + "Please select a firehartpoint first");
-            }
 
-            shootTime1 = Time.time + fireInterval;
+                shootTime1 = Time.time + fireInterval;
+            }
         }
     }
 
