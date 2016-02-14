@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class HealthManager : MonoBehaviour {
 
     public float startHealth = 100f;
+    public float damageTreshHold = 50f;
     public Slider slider;
     public Image fillImage;
     public Color maxHealthColor = Color.green;
@@ -17,6 +18,7 @@ public class HealthManager : MonoBehaviour {
     //Donotchange these#private AudioSource audioFile;
     //private GameObject
     private ParticleSystem explosionParticle;
+    private ParticleSystem damageParticle;
     public float currentHealth;
     private bool isDead;
     private float destroyTimer;
@@ -36,8 +38,15 @@ public class HealthManager : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-	
-	}
+        //if (currentHealth <= damageTreshHold)
+        //{
+        //    GetComponentInChildren<ParticleSystem>().enableEmission = true;
+        //}
+        //else
+        //{
+        //    GetComponentInChildren<ParticleSystem>().enableEmission = false;
+        //}
+    }
 
     void setSliderStartValue()
     {
@@ -55,6 +64,10 @@ public class HealthManager : MonoBehaviour {
         currentHealth -= damage;
 
         SetHealthBarUI();
+        if(currentHealth <= damageTreshHold)
+        {
+            GetComponentInChildren<ParticleSystem>().enableEmission = true;
+        }
 
         if (currentHealth <= 0f && !isDead)
         {
