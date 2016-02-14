@@ -16,11 +16,14 @@ public class TouchDeviceSocketListener : MonoBehaviour
     //public string connectIp = "192.168.0.100"; // Samsung phone
     //public string connectIp = "25.106.24.161";
 
+    public Transform weapon;
+
     public UnityEvent fireAction;
     public UnityEvent reloadAction;
-
+    
     private const string fireKeyword = "[FIRE]";
     private const string reloadKeyword = "[RELOAD]";
+    private const string orientationKeyword = "[ORIENTATION]";
     private const string ipKeyword = "[IP] ";
     private const int listenPort = 29001;
     private const int sendPort = 29002;
@@ -166,7 +169,27 @@ public class TouchDeviceSocketListener : MonoBehaviour
             {
                 reloadAction.Invoke();
             }
+            else if (message.Contains(orientationKeyword))
+            {
+                Debug.Log(message.Substring(message.IndexOf(orientationKeyword) + orientationKeyword.Length));
+                Vector3 euler =
+                    ParseVector3(
+                        message.Substring(message.IndexOf(orientationKeyword) + orientationKeyword.Length).Trim());
+                weapon.rotation =  Quaternion.Euler(euler.x, euler.y, euler.z);
+            }
         }
+    }
+
+    private Vector3 ParseVector3(string rString)
+    {
+        Debug.Log(rString.Substring(1, rString.Length - 2));
+        string[] temp = rString.Substring(1, rString.Length - 2).Split(',');
+       
+        float x = float.Parse(temp[0]);
+        float y = float.Parse(temp[1]);
+        float z = float.Parse(temp[2]);
+        Vector3 rValue = new Vector3(x, y, z);
+        return rValue;
     }
 
 }
