@@ -38,14 +38,14 @@ public class HealthManager : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        //if (currentHealth <= damageTreshHold)
-        //{
-        //    GetComponentInChildren<ParticleSystem>().enableEmission = true;
-        //}
-        //else
-        //{
-        //    GetComponentInChildren<ParticleSystem>().enableEmission = false;
-        //}
+        if (currentHealth <= damageTreshHold)
+        {
+            GetComponentInChildren<ParticleSystem>().enableEmission = true;
+        }
+        else
+        {
+            GetComponentInChildren<ParticleSystem>().enableEmission = false;
+        }
     }
 
     void setSliderStartValue()
