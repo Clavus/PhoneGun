@@ -175,14 +175,13 @@ public class TouchDeviceSocketListener : MonoBehaviour
                 Vector3 euler =
                     ParseVector3(
                         message.Substring(message.IndexOf(orientationKeyword) + orientationKeyword.Length).Trim());
-                weapon.rotation =  Quaternion.Euler(euler.x, euler.y, euler.z);
+                weapon.rotation =  Quaternion.Euler(-euler.x, -euler.y, euler.z);
             }
         }
     }
 
     private Vector3 ParseVector3(string rString)
     {
-        Debug.Log(rString.Substring(1, rString.Length - 2));
         string[] temp = rString.Substring(1, rString.Length - 2).Split(',');
        
         float x = float.Parse(temp[0]);
