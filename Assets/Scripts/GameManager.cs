@@ -19,14 +19,24 @@ public class GameManager : SingletonComponent<GameManager>
     private Text speedText;
 
     [SerializeField]
+    private GameObject gameOverObject;
+
+    [SerializeField]
+    private Text gameOverText;
+
+    [SerializeField]
     private Vehicle playerVehicle;
     
     private Vector3 lastVehiclePos;
 
+    private bool gameOver = false;
+
 	void Start ()
 	{
 	    lastVehiclePos = playerVehicle.transform.position;
-	}
+        gameOverObject.SetActive(false);
+
+    }
 	
 	void Update ()
 	{
@@ -42,6 +52,9 @@ public class GameManager : SingletonComponent<GameManager>
 	    {
 	        distanceLeft = 0;
 	        playerVehicle.speed = 0;
+	        gameOver = true;
+            gameOverObject.SetActive(true);
+	        gameOverText.text = gameOverText.text.Replace("%NUM%", distanceTravelled.ToString("0"));
 	    }
 
 
@@ -53,6 +66,11 @@ public class GameManager : SingletonComponent<GameManager>
     public static void AddDistance(float distance)
     {
         instance.distanceLeft += distance;
+    }
+
+    public static bool IsGameOver()
+    {
+        return instance.gameOver;
     }
 
 }

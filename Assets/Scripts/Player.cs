@@ -10,7 +10,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private AudioSource shootAudio;
-    
+
+    [SerializeField]
+    private AudioSource dryAudio;
+
     private int targetLayers;
 
 	// Use this for initialization
@@ -24,7 +27,7 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-	    if (Input.GetButtonDown("Fire1"))
+	    if (Input.GetButtonDown("Fire1") && !GameManager.IsGameOver())
 	    {
             //Debug.Log("Firing");
             
@@ -63,12 +66,19 @@ public class Player : MonoBehaviour
                     
             }
 
-	        if (!hitTrigger && bulletBelt.GetBulletsLeft() > 0)
+	        if (!hitTrigger)
 	        {
-                bulletBelt.UseBullet();
+	            if (bulletBelt.GetBulletsLeft() > 0)
+	            {
+	                bulletBelt.UseBullet();
 
-                shootAudio.pitch = 0.9f + 0.2f * Random.value;
-                shootAudio.Play();
+	                shootAudio.pitch = 0.9f + 0.2f*Random.value;
+	                shootAudio.Play();
+	            }
+	            else
+	            {
+	                dryAudio.Play();
+	            }
             }
 
         }
@@ -87,7 +97,7 @@ public class Player : MonoBehaviour
             Cursor.visible = true;
         }
 
-	    if (Input.GetButtonDown("Recenter") && VRSettings.enabled)
+	    if (Input.GetKeyDown(KeyCode.F2) && VRSettings.enabled)
 	    {
 	        InputTracking.Recenter();
 	    }
