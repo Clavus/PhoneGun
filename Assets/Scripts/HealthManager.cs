@@ -81,9 +81,11 @@ public class HealthManager : MonoBehaviour {
         // Remove explostion prefab when its done animating
         Destroy(explotionPrefab, explosionParticle.duration);
     }
-
+    
     private void DoOnDeath2()
     {
+        isDead = true;
+
         GetComponentInParent<MoveOverLocalPath>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Rigidbody>().useGravity = true;
@@ -97,6 +99,9 @@ public class HealthManager : MonoBehaviour {
     //void OnTriggerEnter(Collider collidedObject)
     void OnCollisionEnter(Collision collidedObject)
     {
+        if (!isDead)
+            return;
+
         Debug.Log("Detecting hit: objectname: " + collidedObject.gameObject.name + " On layer: " + collidedObject.gameObject.layer);
         float layerID = Mathf.Log(groundLayer.value, 2);
 
