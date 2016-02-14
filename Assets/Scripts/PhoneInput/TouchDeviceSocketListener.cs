@@ -35,6 +35,9 @@ public class TouchDeviceSocketListener : SingletonComponent<TouchDeviceSocketLis
 
     private List<string> received = new List<string>();
 
+    private Quaternion offsetRotation = Quaternion.identity;
+    private bool spazzOut = false;
+
     // Use this for initialization
     void Start ()
     {
@@ -53,6 +56,16 @@ public class TouchDeviceSocketListener : SingletonComponent<TouchDeviceSocketLis
         {
             SendUDPData(ipKeyword + myIp);
         }*/
+
+	    if (Input.GetKeyDown(KeyCode.F3))
+	    {
+	        offsetRotation = Quaternion.Inverse(weapon.rotation * offsetRotation);
+	    }
+
+	    if (Input.GetKeyDown(KeyCode.F4))
+	    {
+	        spazzOut = !spazzOut;
+	    }
 
         ProcessUDP();
 	}
@@ -180,7 +193,9 @@ public class TouchDeviceSocketListener : SingletonComponent<TouchDeviceSocketLis
                 Vector3 euler =
                     ParseVector3(
                         message.Substring(message.IndexOf(orientationKeyword) + orientationKeyword.Length).Trim());
-                weapon.rotation =  Quaternion.Euler(-euler.x, -euler.y, euler.z);
+
+                if (spazzOut)
+                    weapon.rotation =  Quaternion.Euler(euler.y, -euler.x, euler.z) * offsetRotation;
             }
         }
     }
