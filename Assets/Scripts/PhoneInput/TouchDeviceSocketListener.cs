@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class TouchDeviceSocketListener : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class TouchDeviceSocketListener : MonoBehaviour
     //public string connectIp = "192.168.0.100"; // Samsung phone
     //public string connectIp = "25.106.24.161";
 
-    private const string stateKeyword = "[TSTATE]";
-    private const string deviceKeyword = "[TDEVICE]";
+    public UnityEvent fireAction;
+    public UnityEvent reloadAction;
+
+    private const string fireKeyword = "[FIRE]";
+    private const string reloadKeyword = "[RELOAD]";
     private const string ipKeyword = "[IP] ";
     private const int listenPort = 29001;
     private const int sendPort = 29002;
@@ -153,15 +157,14 @@ public class TouchDeviceSocketListener : MonoBehaviour
 
             //Debug.Log("UDP message: " + message);
 
-            if (message.Contains(stateKeyword))
+            if (message.Contains(fireKeyword))
             {
-                string task = message.Substring(message.IndexOf(stateKeyword) + stateKeyword.Length);
-                InputExternal.ParseDeviceInput(task);
+                //string task = message.Substring(message.IndexOf(stateKeyword) + stateKeyword.Length);
+                fireAction.Invoke();
             }
-            else if (message.Contains(deviceKeyword))
+            else if (message.Contains(reloadKeyword))
             {
-                string deviceDetails = message.Substring(message.IndexOf(deviceKeyword) + deviceKeyword.Length);
-                InputExternal.ParseDeviceDetails(deviceDetails);
+                reloadAction.Invoke();
             }
         }
     }

@@ -25,66 +25,14 @@ public class Player : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 
-	    if (Input.GetButtonDown("Fire1") && !GameManager.IsGameOver())
-	    {
-            //Debug.Log("Firing");
-            
-            Ray r = new Ray(transform.position, transform.forward);
-	        RaycastHit hitinfo;
-            Debug.DrawRay(r.origin, r.direction * 10f, Color.red, 2f);
-
-	        bool hitTrigger = false;
-	        BaseTargetBehaviour target;
-
-	        if (Physics.Raycast(r, out hitinfo, 1000f, targetLayers))
-	        {
-                //Debug.Log("Hit");
-                // get base game object
-                GameObject obj = hitinfo.collider.gameObject;
-	            if (hitinfo.collider.attachedRigidbody != null)
-	                obj = hitinfo.collider.attachedRigidbody.gameObject;
-
-                // find target behaviour
-	            target = obj.GetComponent<BaseTargetBehaviour>();
-	            if (target != null)
-	            {
-	                if (target.GetTargetType() == TargetType.Enemy && bulletBelt.GetBulletsLeft() > 0)
-	                    target.ReceiveHit(hitinfo); // trigger hit
-	                else if (target.GetTargetType() == TargetType.Trigger)
-	                {
-	                    hitTrigger = true;
-	                    target.ReceiveHit(hitinfo);
-	                }
-
-	            }
-	            else if (bulletBelt.GetBulletsLeft() > 0)
-	            {
-	                BaseHitEffect(hitinfo);
-	            }
-                    
-            }
-
-	        if (!hitTrigger)
-	        {
-	            if (bulletBelt.GetBulletsLeft() > 0)
-	            {
-	                bulletBelt.UseBullet();
-
-	                shootAudio.pitch = 0.9f + 0.2f*Random.value;
-	                shootAudio.Play();
-	            }
-	            else
-	            {
-	                dryAudio.Play();
-	            }
-            }
-
-        }
+	    if (Input.GetButtonDown("Fire1"))
+	        FireGun();
 
         // lock mouse
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -110,5 +58,63 @@ public class Player : MonoBehaviour
         obj.transform.parent = hitinfo.collider.transform;
         obj.transform.position = hitinfo.point;
         obj.transform.rotation = Quaternion.LookRotation(hitinfo.normal);
+    }
+
+    public void FireGun()
+    {
+        if (GameManager.IsGameOver())
+            return;
+
+        //Debug.Log("Firing");
+
+        Ray r = new Ray(transform.position, transform.forward);
+        RaycastHit hitinfo;
+        Debug.DrawRay(r.origin, r.direction * 10f, Color.red, 2f);
+
+        bool hitTrigger = false;
+        BaseTargetBehaviour target;
+
+        if (Physics.Raycast(r, out hitinfo, 1000f, targetLayers))
+        {
+            //Debug.Log("Hit");
+            // get base game object
+            GameObject obj = hitinfo.collider.gameObject;
+            if (hitinfo.collider.attachedRigidbody != null)
+                obj = hitinfo.collider.attachedRigidbody.gameObject;
+
+            // find target behaviour
+            target = obj.GetComponent<BaseTargetBehaviour>();
+            if (target != null)
+            {
+                if (target.GetTargetType() == TargetType.Enemy && bulletBelt.GetBulletsLeft() > 0)
+                    target.ReceiveHit(hitinfo); // trigger hit
+                else if (target.GetTargetType() == TargetType.Trigger)
+                {
+                    hitTrigger = true;
+                    target.ReceiveHit(hitinfo);
+                }
+
+            }
+            else if (bulletBelt.GetBulletsLeft() > 0)
+            {
+                BaseHitEffect(hitinfo);
+            }
+
+        }
+
+        if (!hitTrigger)
+        {
+            if (bulletBelt.GetBulletsLeft() > 0)
+            {
+                bulletBelt.UseBullet();
+
+                shootAudio.pitch = 0.9f + 0.2f * Random.value;
+                shootAudio.Play();
+            }
+            else
+            {
+                dryAudio.Play();
+            }
+        }
     }
 }
