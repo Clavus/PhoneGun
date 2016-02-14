@@ -58,8 +58,11 @@ public class GameManager : SingletonComponent<GameManager>
 	    }
 
 
-        if (Input.GetKeyDown(KeyCode.F1))
+	    if (Input.GetKeyDown(KeyCode.F1))
+	    {
+	        TouchDeviceSocketListener.CloseSocket();
             SceneManager.LoadScene("MainScene");
+        }
 
 	}
 

@@ -35,7 +35,7 @@ public class ScoreBlock : MonoBehaviour
     {
         if (body != null)
         {
-            body.AddForce(Vector3.up * 3, ForceMode.Impulse);
+            body.AddForce(Vector3.up * 6, ForceMode.Impulse);
             body.AddTorque(0,Random.Range(-6f,6f), Random.Range(-6f, 6f));
             scoreSound.Play();
         }

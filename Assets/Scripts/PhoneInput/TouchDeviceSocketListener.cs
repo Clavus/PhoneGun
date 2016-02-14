@@ -8,7 +8,7 @@ using System.Threading;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class TouchDeviceSocketListener : MonoBehaviour
+public class TouchDeviceSocketListener : SingletonComponent<TouchDeviceSocketListener>
 {
     public string myIp = "192.168.0.104";
     public string defaultConnectIp = "192.168.0.100"; // Old Shield tablet
@@ -84,16 +84,21 @@ public class TouchDeviceSocketListener : MonoBehaviour
 
         Debug.Log("Send UDP connect message to " + connectIp + "!");
     }
-    
-    void OnApplicationQuit()
+
+    private void OnApplicationQuit()
     {
-        if (listenThread != null)
-            listenThread.Abort();
+        CloseSocket();
+    }
 
-        if (listener != null)
-            listener.Close();
+    public static void CloseSocket()
+    {
+        if (instance.listenThread != null)
+            instance.listenThread.Abort();
 
-        udpSocket.Close();
+        if (instance.listener != null)
+            instance.listener.Close();
+
+        instance.udpSocket.Close();
     }
 
     private void SendUDPData(string str)

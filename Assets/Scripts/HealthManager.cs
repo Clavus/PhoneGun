@@ -6,6 +6,7 @@ public class HealthManager : MonoBehaviour {
 
     public float startHealth = 100f;
     public float damageTreshHold = 50f;
+    public float scoreOnDeath = 50;
     public Slider slider;
     public Image fillImage;
     public Color maxHealthColor = Color.green;
@@ -13,7 +14,6 @@ public class HealthManager : MonoBehaviour {
     public GameObject explotionPrefab;
     public AudioClip audioFile;
     public LayerMask groundLayer;
-   
 
     //Donotchange these#private AudioSource audioFile;
     //private GameObject
@@ -98,6 +98,15 @@ public class HealthManager : MonoBehaviour {
     private void DoOnDeath2()
     {
         isDead = true;
+
+        GameManager.AddDistance(scoreOnDeath);
+
+        var scoreBlock = ObjectPool.Get("ScoreBlock", transform.position, Quaternion.identity).GetComponent<ScoreBlock>();
+        if (scoreBlock != null)
+        {
+            scoreBlock.SetScoreText((int)scoreOnDeath, Color.green);
+            scoreBlock.Launch();
+        }
 
         GetComponentInParent<MoveOverLocalPath>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = false;

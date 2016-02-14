@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	    weaponBaseRotation = weaponTransform.rotation;
+	    weaponBaseRotation = weaponTransform.localRotation;
         Cursor.lockState = CursorLockMode.Locked;
 	    targetLayers = LayerMask.GetMask("Entity", "Geometry");
 	    SetFireMode(fireMode);
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         weaponLaser.SetActive(mode == FireMode.Phone);
 
         if (mode == FireMode.Face)
-            weaponTransform.rotation = weaponBaseRotation;
+            weaponTransform.localRotation = weaponBaseRotation;
     }
 
     void BaseHitEffect(RaycastHit hitinfo)
