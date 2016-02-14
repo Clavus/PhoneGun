@@ -15,7 +15,7 @@ public class Enemy_WeaponSystem : MonoBehaviour {
     //([Header],"s");
     public float weaponRotationOffset = 0f;
     public float weaponSpeed = 2000f;
-    public AudioClip fireSound;
+    //ublic AudioClip fireSound;
     public bool enableFireing = true;
 
     [SerializeField]
@@ -31,8 +31,9 @@ public class Enemy_WeaponSystem : MonoBehaviour {
 	void Update ()
     {
         //CheckForFireing();
-        FireSelectedWeapon();
         CheckDistance();
+        FireSelectedWeapon();
+      
     }
 
     void CheckDistance()
@@ -73,7 +74,7 @@ public class Enemy_WeaponSystem : MonoBehaviour {
         // fire x photons per salvo shot
         for (int i = 0; i < photonSalvo; i++)
         {
-            playAudioFile(true);
+            //playAudioFile(true);
 
             // Create a new instance of weapon[currentSeclected], startfrom firehartpoint position, and use firehartpoint Y rotation to [x.y.z])
             weaponClone = (GameObject)Instantiate(weapon, fireHartpoint.transform.position, Quaternion.Euler(0, fireHartpoint.transform.eulerAngles.y + weaponRotationOffset, 0));
@@ -87,25 +88,25 @@ public class Enemy_WeaponSystem : MonoBehaviour {
         }
     }
 
-    void playAudioFile(bool oneShot)
-    {
-        if(fireSound)
-        {
-            if (oneShot)
-            {
-                GetComponent<AudioSource>().PlayOneShot(fireSound);
-            }
-            else
-            {
-                //GetComponent<AudioSource>().Play();
-            }
-        } 
-    }
+    //void playAudioFile(bool oneShot)
+    //{
+    //    if(fireSound)
+    //    {
+    //        if (oneShot)
+    //        {
+    //            GetComponent<AudioSource>().PlayOneShot(fireSound);
+    //        }
+    //        else
+    //        {
+    //            //GetComponent<AudioSource>().Play();
+    //        }
+    //    } 
+    //}
 
     // [B] creates a new instance of the beam or projectyle weapon
     void FireWeaponObjectNormal()
     {
-        playAudioFile(true);
+        //playAudioFile(true);
 
         // create a new instance of weapon[currentSeclected], starfrom firehartpoint position, and use firehartpoint Y rotation to [x.y.z])
         weaponClone = (GameObject)Instantiate(weapon, fireHartpoint.transform.position, Quaternion.Euler(0, fireHartpoint.transform.eulerAngles.y + weaponRotationOffset, 0));

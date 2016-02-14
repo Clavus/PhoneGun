@@ -11,6 +11,7 @@ public class HealthManager : MonoBehaviour {
     public Color minHealthColor = Color.red;
     public GameObject explotionPrefab;
     public AudioClip audioFile;
+    public LayerMask groundLayer;
    
 
     //Donotchange these#private AudioSource audioFile;
@@ -57,27 +58,63 @@ public class HealthManager : MonoBehaviour {
 
         if (currentHealth <= 0f && !isDead)
         {
-            DoOnDeath();
+            DoOnDeath2();
         }
     }
 
     /// <summary>
     /// Destroy this gameobject
     /// </summary>
-    private void DoOnDeath()
+    private void DoOnDeath1()
     {
         isDead = true;
 
         // Set explostion refab to players posistion and enabled it
         explotionPrefab.transform.position = transform.position;
-        //Debug.Log("[Healthmanager] Spawning explosion prefab to player loc: " + explotionPrefab.name);
         explotionPrefab.SetActive(true);
+
+     
 
         //Destroy thisobject
         Destroy(this.gameObject);
 
         // Remove explostion prefab when its done animating
         Destroy(explotionPrefab, explosionParticle.duration);
+    }
+
+    private void DoOnDeath2()
+    {
+        GetComponentInParent<MoveOverLocalPath>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Rigidbody>().useGravity = true;
+        if(GetComponent<Animator>())
+        {
+            GetComponent<Animator>().Stop();
+            GetComponent<Animator>().enabled = false;
+        }
+    }
+
+    //void OnTriggerEnter(Collider collidedObject)
+    void OnCollisionEnter(Collision collidedObject)
+    {
+        Debug.Log("Detecting hit: objectname: " + collidedObject.gameObject.name + " On layer: " + collidedObject.gameObject.layer);
+        float layerID = Mathf.Log(groundLayer.value, 2);
+
+       // Debug.Log("comparing: " + collidedObject.gameObject.layer + " to " + layerID);
+        //if (collidedObject.gameObject.layer == layerID)
+        //{
+            //Debug.Log("i hit: " + collidedObject.name);
+            Debug.Log("i hit: " + collidedObject.gameObject.name);
+
+            explotionPrefab.transform.position = transform.position;
+            explotionPrefab.SetActive(true);
+
+            // Remove explostion prefab when its done animating
+            Destroy(explotionPrefab, explosionParticle.duration);
+
+            //Destroy thisobject
+            Destroy(this.gameObject);
+        //}
     }
 
     void SetHealthBarUI()

@@ -6,6 +6,7 @@ public class Weapon_Stats : MonoBehaviour
 {
     //private enum WeaponTypes {Main, Options, Extras};
     public LayerMask hitMask;
+    public AudioClip fireSound;
     //public float autoDestroy = 3f; 
 
     /// <summary>
@@ -78,18 +79,33 @@ public class Weapon_Stats : MonoBehaviour
         if (collidedObject.gameObject.layer == layerID)
         {
             Debug.Log("i hit: " + collidedObject.name);
-            //if (collidedObject.gameObject.GetComponentInParent<Player_CarHealth>())
-            //{
-            //    Debug.Log("Found HeatlhSystem");
-            //    collidedObject.gameObject.GetComponentInParent<Player_CarHealth>().setDamage(WeaponDamage);
-            //}
         }
         Destroy(this.gameObject);
     }
 
 
+    void playAudioFile(bool oneShot)
+    {
+        if (fireSound)
+        {
+            if (oneShot)
+            {
+                GetComponent<AudioSource>().PlayOneShot(fireSound);
+            }
+            else
+            {
+                //GetComponent<AudioSource>().Play();
+            }
+        }
+    }
+
+    void Awake()
+    {
+        playAudioFile(true);
+    }
+
     void Start()
     {
-        //Destroy(this.gameObject, autoDestroy);   
+        //playAudioFile(true);
     }
 }

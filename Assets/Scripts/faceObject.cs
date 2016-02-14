@@ -8,6 +8,10 @@ public class faceObject : MonoBehaviour
     public Transform lookAtMe;
     public Vector3 lookOffset;
     private Vector3 lookAtMyVector;
+    public float lookDistance = 6f;
+
+    [SerializeField]
+    private float distance;
 
     void Start()
     {
@@ -23,8 +27,10 @@ public class faceObject : MonoBehaviour
         }
     }
 
-	// Update is called once per frame
-	void Update ()
+
+
+    // Update is called once per frame
+    void Update ()
     {
         LookAtObject();
     }
@@ -32,7 +38,12 @@ public class faceObject : MonoBehaviour
 
     void LookAtObject()
     {
-        this.transform.LookAt(lookAtMe.position);
-        this.transform.Rotate(lookOffset);
+        distance = Vector3.Distance(transform.position, Camera.main.transform.position);
+
+        if (distance <= lookDistance)
+        {
+            this.transform.LookAt(lookAtMe.position);
+            this.transform.Rotate(lookOffset);
+        }
     }
 }
